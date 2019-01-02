@@ -1,6 +1,6 @@
 {
   "apps": [{
-    "name": "zhuanjiabao",
+    "name": "telecontrol",
     "script": "./boot.js",
     "cwd": "",
     "exec_mode": "cluster",

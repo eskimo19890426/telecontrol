@@ -19,25 +19,20 @@ export default {
         // 缓存状态
         cacheState() {
           let state = this.$store.state
-          let sessionkey = this.$config.sessionkey
+          console.log(state,'state')
           // 当路由改变的时候存储状态
           window.sessionStorage.setItem('state', JSON.stringify(state))
-          if (sessionkey) {
-            window.sessionStorage.setItem('sessionkey', sessionkey)
-          }
+
         },
         // 同步状态
         syncState() {
           let state = window.sessionStorage.getItem('state')
-          let sessionkey = window.sessionStorage.getItem('sessionkey')
           // 同步状态数
+          console.log(state,'state')
           if (state && this.$root.$store) {
             this.$root.$store.replaceState(JSON.parse(state))
           }
-          // 同步sessionkey
-          if (sessionkey) {
-            this.$config.sessionkey = sessionkey
-          }
+          
         }
       }
     })

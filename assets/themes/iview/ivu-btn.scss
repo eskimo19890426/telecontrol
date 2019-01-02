@@ -1,0 +1,19 @@
+.ivu-btn {
+  border-radius: 0;
+
+  .ivu-icon {
+    position: relative;
+    top: 1px;
+    font-size: 14px;
+  }
+}
+
+.ivu-btn-primary {
+  background: $primary;
+  border-color: $primary;
+
+  &:hover {
+    background: $primary*1.1;
+    border-color: $primary*1.1;
+  }
+}

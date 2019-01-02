@@ -1,7 +1,7 @@
 const pkg = require('./package')
 
 module.exports = {
-  mode: 'universal',
+  // mode: 'universal',
 
   /*
   ** Headers of the page
@@ -26,30 +26,34 @@ module.exports = {
   /*
   ** Global CSS
   */
-  css: [
-  ],
-
+ css: [{
+  src: '~assets/themes/index.scss',
+  lang: 'scss'
+ }],
+ router: {
+   middleware: ['auth']
+ },
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
+    {
+      src: '~plugins/config',
+      ssr: true
+    }, {src: '~plugins/iview', ssr: true}, 
+    {
+      src: '~plugins/axios/index',
+      ssr: true
+    }, {
+      src: '~plugins/state-sync/index',
+      ssr: false
+    }
   ],
-
-  /*
-  ** Nuxt.js modules
-  */
-  modules: [
-    // Doc: https://github.com/nuxt-community/axios-module#usage
-    '@nuxtjs/axios',
-    // Doc: https://bootstrap-vue.js.org/docs/
-    'bootstrap-vue/nuxt'
-  ],
-  /*
-  ** Axios module configuration
-  */
-  axios: {
-    // See https://github.com/nuxt-community/axios-module#options
+  env: {
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000'
   },
+  generate: {},
+
 
   /*
   ** Build configuration
@@ -68,6 +72,7 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
-    }
+    },
   }
+
 }
