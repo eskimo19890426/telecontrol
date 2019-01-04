@@ -1,7 +1,7 @@
 export default {
   token: '1j32ksie3j9jd893dd',
   apihost: 'http://47.92.200.142:9000',
-  timeout: 15000,
+  timeout: 25000,
   // 登录地址
   loginurl: '/account/login',
   // 免授权的url，不用登陆即可访问

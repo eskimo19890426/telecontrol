@@ -10,7 +10,7 @@ module.exports = {
     title: pkg.name,
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1,user-scalable=no' },
       { hid: 'description', name: 'description', content: pkg.description }
     ],
     link: [
@@ -36,21 +36,24 @@ module.exports = {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: [
-    {
+  plugins: [{
       src: '~plugins/config',
       ssr: true
-    }, {src: '~plugins/iview', ssr: true}, 
+    }, { src: '~plugins/iview', 
+      ssr: true },
     {
       src: '~plugins/axios/index',
       ssr: true
     }, {
       src: '~plugins/state-sync/index',
       ssr: false
+    }, {
+      src: '~components/index',
+      ssr: true
     }
   ],
   env: {
-    baseUrl: process.env.BASE_URL || 'http://localhost:3000'
+    baseUrl: process.env.BASE_URL || 'http://localhost:5000'
   },
   generate: {},
 

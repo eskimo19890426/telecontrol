@@ -2,6 +2,10 @@
   <div 
     :class="{fadein:showlogin}"
     class="box">
+    <div class="title">
+      <div class="title1">远程控制系统</div>
+      <div class="title2">WELCOM TO REMOTE CONTROL SYSTEM</div>
+    </div>
     <div class="form">
       <ul>
         <li>
@@ -163,15 +167,19 @@ export default {
     overflow: hidden;
     background: url("~static/images/1.jpg") no-repeat center ;
     background-size: 100%;
-        .logo {
+        .title {
+            display:block;
+            margin-top: 40%;
+            margin-bottom:15%; 
             text-align: center;
-            margin-top: -120px;
-
-            h3 {
-                font-size: 32px;
-                color: #fff;
-                font-weight: lighter;
-                padding: 10px 0;
+            .title1 {
+                font-size:2rem;
+                letter-spacing: 0.5rem;
+                color:white;
+            }
+            .title2 {
+                font-size:0.75rem;
+                color:white;
             }
         }
 
@@ -203,7 +211,7 @@ export default {
                 position: relative;
                 width: 80%;
                 margin: auto auto;
-                
+                border-bottom: 1px solid white;
                 input {
                     background-color: transparent;
                     height: 50px;
@@ -212,6 +220,7 @@ export default {
                     border-radius: 5px;
                     box-sizing: border-box;
                     padding: 0 1rem 0 3rem;
+                    color:white;
                 }
                 .iconfont {
                     position: absolute;
@@ -282,6 +291,7 @@ export default {
                 padding: 0;
                 color:#34416e;
                 font-weight: bold;
+                margin-top:10%;
                 &:active {
                     background: $primary * 0.9;
                 }

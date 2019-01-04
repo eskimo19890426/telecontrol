@@ -4,6 +4,12 @@
   "description": "telecontrol",
   "author": "acewu",
   "private": true,
+  "config": {
+    "nuxt": {
+      "host": "0.0.0.0",
+      "port": "5000"
+    }
+  },
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
