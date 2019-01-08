@@ -115,10 +115,10 @@ export default {
         this.$Message.warning('请输入正确的用户名')
         return
       }
-      if (this.formData.Passwords.length < 6 || this.formData.Passwords.length > 16) {
-        this.$Message.warning('密码长度需大于6位数,并小于16位数')
-        return
-      }
+      // if (this.formData.Passwords.length < 6 || this.formData.Passwords.length > 16) {
+      //   this.$Message.warning('密码长度需大于6位数,并小于16位数')
+      //   return
+      // }
       // 登录
       this.login()
     },

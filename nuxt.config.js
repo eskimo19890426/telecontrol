@@ -76,6 +76,8 @@ module.exports = {
         })
       }
     },
+    publicPath: '/_nuxt/static/images/'
+
   }
 
 }

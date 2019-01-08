@@ -5,34 +5,40 @@
         <div class="item">
           <ul>
             <li><img 
+              :src="active==1?onimg:offimg"
+              index="1"
               row="1" 
               cell="1" 
               position="449.9,265.1"
-              src="~static/images/off.png"
               @click="handleClick($event)" 
-            ></li>
+            >
+            </li>
             <li><img 
+              :src="active==2?onimg:offimg"
+              index="2"
               row="2" 
               cell="1" 
               position="338.9,535.6"
-              src="~static/images/off.png"
               @click="handleClick($event)" 
-            ></li>
+            >
+            </li>
           </ul>
         </div>
         <div class="item">
           <ul>
             <li><img 
+              :src="active==3?onimg:offimg"
+              index="3"
               row="1" 
               cell="2" 
               position="1546.0,270.4"
-              src="~static/images/off.png"
               @click="handleClick($event)" 
             ></li><li><img 
+              :src="active==4?onimg:offimg"
+              index="4"
               row="2" 
               cell="2" 
               position="1546.0,542.2"
-              src="~static/images/off.png"
               @click="handleClick($event)" 
             ></li>
           </ul>
@@ -40,22 +46,25 @@
         <div class="item">
           <ul>
             <li><img 
+              :src="active==5?onimg:offimg"
+              index="5"
               row="1" 
               cell="3" 
               position="2143.3,13.3"
-              src="~static/images/off.png"
               @click="handleClick($event)" 
             ></li><li><img 
+              :src="active==6?onimg:offimg"
+              index="6"
               row="2" 
               cell="3" 
               position="2143.3,282.9"
-              src="~static/images/off.png"
               @click="handleClick($event)" 
             ></li><li><img 
+              :src="active==7?onimg:offimg"
+              index="7"
               row="3" 
               cell="3" 
               position="2143.3,534.3"
-              src="~static/images/off.png"
               @click="handleClick($event)" 
             ></li>
           </ul>
@@ -63,16 +72,18 @@
         <div class="item">
           <ul>
             <li><img 
+              :src="active==8?onimg:offimg"
+              index="8"
               row="1" 
               cell="4" 
               position="2743.8,281.4"
-              src="~static/images/off.png"
               @click="handleClick($event)" 
             ></li><li><img 
+              :src="active==9?onimg:offimg"
+              index="9"
               row="2" 
               cell="4" 
               position="2743.8,534.3"
-              src="~static/images/off.png"
               @click="handleClick($event)" 
             ></li>
           </ul>
@@ -80,28 +91,32 @@
         <div class="item">
           <ul>
             <li><img 
+              :src="active==10?onimg:offimg"
+              index="10"
               row="1" 
               cell="5" 
               position="3355.3,14.0"
-              src="~static/images/off.png"
               @click="handleClick($event)" 
             ></li><li><img 
+              :src="active==11?onimg:offimg"
+              index="11"
               row="2" 
               cell="5" 
               position="3355.3,281.4"
-              src="~static/images/off.png"
               @click="handleClick($event)" 
             ></li><li><img 
+              :src="active==12?onimg:offimg"
+              index="12"
               row="3" 
               cell="5" 
               position="3355.3,550.2"
-              src="~static/images/off.png"
               @click="handleClick($event)" 
             ></li><li><img 
+              :src="active==13?onimg:offimg"
+              index="13"
               row="4" 
               cell="5" 
               position="3355.3,811.3"
-              src="~static/images/off.png"
               @click="handleClick($event)" 
             ></li>
           </ul>
@@ -133,27 +148,73 @@
       </div>
       
     </div>
+
+    <div class="user">
+      <ul>
+        
+        <li class="account">
+          <Poptip 
+            placement="left-start" 
+            width="1rem">
+            <img 
+              src="~/static/images/account.png"
+            >
+            <div 
+              slot="content"
+              class="api" >
+              <div 
+                class="item"
+                @click="handleAccountClick($event)" 
+              ><p><img src="~/static/images/account.png"></p><span>个人信息</span></div>
+              <div 
+                class="item" 
+                @click="handleUpdatePSDClick($event)"><p><img src="~/static/images/edit.png"></p><span>修改密码</span></div>
+              <div 
+                class="item" 
+                @click="handleLogoutClick($event)"><p><img src="~/static/images/logout.png"></p><span>退出登陆</span></div>
+            </div>
+          </Poptip>
+        </li>
+        <li 
+          class="users"><img 
+            src="~/static/images/user.png"
+            @click="handleUserClick($event)" 
+        ></li>
+      </ul>
+    </div>
+
   </div>
 </template>
 
 <script>
-
+import onimg from '~/static/images/on.png'
+import offimg from '~/static/images/off.png'
+import {
+  mapState
+} from 'vuex'
 export default {
   components: {
     
   },
   data() {
     return {
+      onimg,
+      offimg,
+
       row:"",
       cell:"",
       position:"",
       MessageStr:1,
-      hasSelected:false
+      hasSelected:false,
+      active:0
     }
   },
   computed: {
+    ...mapState('app', {
+      account: 'account'
+    }),
     rowcell: function () {
-      return this.row+this.cell
+      return this.cell+this.row
     },
     xposition: function () {
       return this.position.split(",")[0]
@@ -172,11 +233,13 @@ export default {
       let row = e.currentTarget.getAttribute("row")
       let cell = e.currentTarget.getAttribute("cell")
       let position = e.currentTarget.getAttribute("position")
+      let index = e.currentTarget.getAttribute("index")
       this.row = row
       this.cell = cell
       this.position = position
-      this.hasSelected=true;
-
+      this.hasSelected = true;
+      this.MessageStr = cell+'|'+row+'|'+this.xposition+'|'+this.yposition+'|'+index
+      this.active = Number(index)
     },
     handleMove() {
       this.$Loading.start()
@@ -195,8 +258,26 @@ export default {
       })
     },
     handleHistory() {
-        this.$router.push({path: '/history', query: {Cabinets: 1,Locations:1}})
+      this.$router.push({path: '/history', query: {Cabinets: 1,Locations:1}})
+    },
+    handleAccountClick() {
+      this.$router.push({path: '/accountinfo', query: {userID: this.account.ID}})
+    },
+    handleUserClick() {
+      this.$router.push('/accountlist')
+    },
+    handleUpdatePSDClick() {
+      this.$router.push({path: '/updatepsd', query: {userID: this.account.ID}})
+    },
+    handleLogoutClick() {
+      this.logout()
+    },
+    // 退出登录
+    logout() {
+      this.$store.commit('app/logout')
+      this.$router.push('/account/login')
     }
+
   }
 
 
@@ -316,6 +397,73 @@ export default {
     }
   }
   
+}
+
+.user{
+    display: flex;
+    width: 3rem;
+    position: absolute;
+    top: 8vh;
+    margin-left: calc(100% - 3rem);
+    align-items: center;
+    z-index: 2;
+    ul{
+      width:100%;
+      height: 100%;
+      li{
+          display: block;
+          width:1.8rem;
+          height:1.8rem;
+          padding: 0.2rem;
+          margin: 0.8rem 0.4rem;
+          background: #05449b;
+          border-radius: 0.9rem;
+          img{
+            width: 100%;
+            height: 100%;
+          }
+          .api{
+            width:7rem;
+
+              .item{
+                display: flex;
+                width:100%;
+                height: 2rem;
+                line-height: 2rem;
+                align-items:center;
+                padding:0.5rem 0;
+                font-size: 1rem;
+                p{
+                  display: flex;
+                  width:1rem;
+                  height:1rem;
+                  align-items: center;
+                  img{
+                    width:100%;
+                    height:100%;
+
+                  }
+                }
+                span{
+                  margin-left:0.8rem; 
+                }
+                
+              }
+          }
+
+
+      }
+      .account{
+        background: url("~static/images/9.png") no-repeat center ;
+        background-size: 1.8rem 1.8rem;
+      }
+      .users{
+        background-color: #a4554d;
+      }
+
+    }
+    
+
 }
 
 
