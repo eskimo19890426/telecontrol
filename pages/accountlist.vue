@@ -27,12 +27,24 @@
             <div class="text">控制权:{{ item.ControlOver=='1'?"已开通":"未开通" }}</div>
           </div>
           <div class="itemright">
-            <button class="editbtn">修改</button>
-            <button class="deletebtn">删除</button>
+            <button 
+              :userID="item.ID"
+              class="editbtn"
+              @click="handleEditClick($event)">修改</button>
+            <button 
+              :userID="item.ID"
+              class="deletebtn" 
+              @click="handleDeleteClick($event)">删除</button>
           </div>
         </div>
       </Card>
     </Scroll>
+
+    <div class="bottom">
+      <button 
+        class="addbtn" 
+        @click="handleAddClick($event)">添加人员</button>
+    </div>
   </div>
 </template>
 
@@ -50,7 +62,7 @@ export default {
     }
   },
   mounted() {
-    this.sHeight = document.body.offsetHeight*0.95
+    this.sHeight = document.body.offsetHeight*0.84
 
     this.queryData()
   },
@@ -77,7 +89,7 @@ export default {
     handleReachEdge (dir) {
         console.log(dir,'dir')
         if (dir < 0) {
-            this.dataList.push.apply(this.dataList,this.dataList)
+            //this.dataList.push.apply(this.dataList,this.dataList)
         }
 
         // return new Promise(resolve => {
@@ -90,14 +102,39 @@ export default {
         //     // }, 2000);
         // });
     },
-    handleClick(e) {
-        // let id = e.currentTarget.getAttribute("historyid")
-        let dataObj={
-            'id':1
-        }
-        this.$router.push({path: '/detail', query: {dataJson: JSON.stringify(dataObj)}})
-    }
+    handleEditClick(e) {
+        let userID = e.currentTarget.getAttribute("userID")
+        
+        this.$router.push({path: '/edituser', query: {'userID': userID}})
+    },
+    handleAddClick() {
+      this.$router.push('/edituser')
+    },
+    handleDeleteClick(e) {
+        let userID = e.currentTarget.getAttribute("userID")
 
+        this.$Modal.confirm({
+            title: '是否确认删除?',
+            onOk: () => {
+              this.$Loading.start()
+              this.$axios.post('/api/Login/DeleteUserInfo', {
+                'UserID':userID
+              }).then(rs => {
+                let result = rs.data
+                this.$Loading.finish()
+                if (result.success) {
+                  this.queryData()
+                  this.$Message.success(result.message)
+                } else {
+                  this.$Message.error(result.message)
+                }
+              })
+
+
+            },
+            onCancel: () => {}
+        });
+    }
   }
 }
 
@@ -196,7 +233,7 @@ export default {
                 width:100%;
                 height: 40%;
                 margin: 5%;
-                border-radius: 0.4rem;
+                border-radius: 1rem;
               }
               .editbtn{
                 background-color: #f5f5f5;
@@ -206,6 +243,28 @@ export default {
               }
             }
         }
+    }
+
+
+    .bottom{
+      position: fixed;
+      width:100%;
+      height:8vh;
+      bottom:0;
+      background-color: white;
+      display:flex;
+      align-items: center;
+      justify-content: center;
+
+
+      .addbtn{
+        width:80%;
+        height:2rem;
+        background-color: #05449b;
+        border-radius: 1rem;
+        color:white;
+      }
+
     }
 }
 

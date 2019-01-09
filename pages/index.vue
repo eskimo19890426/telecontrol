@@ -238,7 +238,7 @@ export default {
       this.cell = cell
       this.position = position
       this.hasSelected = true;
-      this.MessageStr = cell+'|'+row+'|'+this.xposition+'|'+this.yposition+'|'+index
+      this.MessageStr = cell+'|'+row+'|'+this.xposition+'|'+this.yposition+'|'+index+'|'+0
       this.active = Number(index)
     },
     handleMove() {
@@ -258,7 +258,7 @@ export default {
       })
     },
     handleHistory() {
-      this.$router.push({path: '/history', query: {Cabinets: 1,Locations:1}})
+      this.$router.push({path: '/history', query: {'Cabinets': this.row,'Locations':this.cell,'rowcell':this.rowcell,'xposition':this.xposition,'yposition':this.yposition}})
     },
     handleAccountClick() {
       this.$router.push({path: '/accountinfo', query: {userID: this.account.ID}})

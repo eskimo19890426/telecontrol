@@ -1,6 +1,7 @@
 export default {
   token: '1j32ksie3j9jd893dd',
-  apihost: 'http://47.92.200.142:9000',
+  apihost: 'http://47.92.200.142:9000/web',
+  urlhost:  'http://47.92.200.142:9000',
   timeout: 25000,
   // 登录地址
   loginurl: '/account/login',

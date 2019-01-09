@@ -5,6 +5,7 @@
       <div class="righttop">
         <p><img src="~static/images/2.png"></p>
         <span>{{ user.UserName }}</span>
+        <span @click="doEdit()"><img src="~static/images/update.png"></span>
       </div>
       <div class="rightbottom">
         <p><img src="~static/images/7.png"></p>
@@ -62,7 +63,9 @@ export default {
       })
 
     },
-
+    doEdit() {
+      this.$router.push({path: '/edituser', query: {'userID': this.userID}})
+    }
 
   }
 }
@@ -117,6 +120,12 @@ export default {
             }
             span{
                 margin-left:1rem;
+                display: flex;
+                align-items: center;
+                img{
+                  width:1rem;
+                  height: 1rem;
+                }
             }
         }
         .rightbottom{

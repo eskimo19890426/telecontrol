@@ -18,13 +18,21 @@
         <div 
           :historyid="item.HistoryID"
           class="carditem" 
-          @click="handleClick($event)">{{ item.ShootingContent }}</div>
+          @click="handleClick($event)">
+          <div class="itemleft"><img :src="item.FilePath?picUrl+item.FilePath:img"></div>
+          <div class="itemright">
+            <div class="text">拍摄内容:{{ item.ShootingContent }}</div>
+            <div class="text">{{ item.ShootingTime }}</div>
+          </div>
+        </div>
       </Card>
     </Scroll>
   </div>
 </template>
 
 <script>
+import img from '~/static/images/head.png'
+import config from '~/app.config.js'
 export default {
   data() {
     return {
@@ -34,17 +42,23 @@ export default {
         Cabinets:"",
         Locations:"",
 
-        rowcell:"测试",
-        xposition:"测试",
-        yposition:"测试",
+        rowcell:"",
+        xposition:"",
+        yposition:"",
 
-        dataList:""
+        dataList:"",
+        picUrl:null
 
     }
   },
   mounted() {
+    this.picUrl = config.urlhost+'/'
+
     this.Cabinets= this.$route.query.Cabinets
     this.Locations= this.$route.query.Locations
+    this.rowcell= this.$route.query.rowcell
+    this.xposition= this.$route.query.xposition
+    this.yposition= this.$route.query.yposition
     
     this.sHeight = document.body.offsetHeight*0.95
 
@@ -58,7 +72,7 @@ export default {
         Locations:this.Locations
       }).then(rs => {
         let result = rs.data
-        result.data.push.apply(result.data,result.data)
+        //result.data.push.apply(result.data,result.data)
         this.dataList= result.data
         console.log(result, "data")
         this.$Loading.finish()
@@ -73,7 +87,7 @@ export default {
     handleReachEdge (dir) {
         console.log(dir,'dir')
         if (dir < 0) {
-            this.dataList.push.apply(this.dataList,this.dataList)
+            //this.dataList.push.apply(this.dataList,this.dataList)
         }
 
         // return new Promise(resolve => {
@@ -135,7 +149,34 @@ export default {
         padding-top:2.2rem;
         .carditem{
             width: 100%;
-            height:100%;
+            height:4rem;
+            .itemleft{
+              width:4rem;
+              height:4rem;
+              float:left;
+              text-align:center;
+              img{
+                height: 100%;
+              }
+            }
+            .itemright{
+              width:calc(100% - 4rem);
+              height:4rem;
+              float:left;
+              padding:0 0 0 1rem;
+              display:flex;
+              align-items: center;
+              flex-direction: column ;
+              justify-content:center;
+              .text{
+                width:100%;
+                height:50%;
+                line-height:50%;
+                padding-top: 0.8rem;
+              }
+            }
+
+
         }
     }
 }
