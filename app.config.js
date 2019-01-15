@@ -14,5 +14,4 @@ export default {
   // 用于不是根目录并且是静态发布的时候使用
   // publicPath: '/toftek/dist',
   publicPath: '/',
-  screenWidth:'500px'//手机的用100%
 }
