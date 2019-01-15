@@ -8,7 +8,7 @@
         :label-width="100">
         <FormItem 
           label="头像" 
-          prop="Accounts">
+          prop="Picture">
           <Upload
             :before-upload="handleUpload"
             action="">
@@ -75,33 +75,45 @@ export default {
       file:null,
       picUrl:null,
       formRules: {
-        OldPassword: [{
+        Accounts: [{
           type: 'string',
           required: true,
-          message: '请输入新密码',
-          trigger: 'blur'
-        }],
-        Password: [{
-          type: 'string',
-          required: true,
-          message: '请输入新密码',
-          trigger: 'blur'
-        }],
-        ConfirmPassword: [{
-          type: 'string',
-          required: true,
-          message: '请输入确认密码',
-          trigger: 'blur'
+          message: '请输入账号',
+          trigger: 'blur',
         }, {
           validator: (rule, value, callback) => {
-            if (this.formData.Password !== this.formData.ConfirmPassword) {
-              callback(new Error('两次输入的密码不一致！'))
-            } else {
-              callback()
-            }
+            console.log(this.UserID)
+            this.$axios.post('/api/Login/VerificationUserName', {
+              Accounts:value,
+              UserID:this.userID?this.userID:''
+            }).then(rs => {
+                if(rs.data.success){
+                  callback()
+                }else{
+                  callback(new Error(rs.data.message))
+                }
+            })
           },
           trigger: 'blur'
-        }]
+        }],
+        ControlOver: [{
+          type: 'number',
+          required: true,
+          message: '请选择控制权',
+          trigger: 'blur'
+        }],
+        RoleName: [{
+          type: 'string',
+          required: true,
+          message: '请输入角色',
+          trigger: 'blur'
+        }],
+        UserName: [{
+          type: 'string',
+          required: true,
+          message: '请输入昵称',
+          trigger: 'blur'
+        }],
       },
       formData: {
         Accounts: "",

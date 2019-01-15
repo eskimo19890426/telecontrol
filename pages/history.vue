@@ -16,7 +16,14 @@
         dis-hover 
         style="margin: 0.25rem 0">
         <div 
-          :historyid="item.HistoryID"
+          :Cabinets="item.Cabinets"
+          :Locations="item.Locations"
+          :XCoordinate="item.XCoordinate"
+          :YCoordinate="item.YCoordinate"
+          :HistoryID="item.HistoryID"
+          :ShootingContent="item.ShootingContent"
+          :ShootingTime="item.ShootingTime"
+          :FilePath="item.FilePath"
           class="carditem" 
           @click="handleClick($event)">
           <div class="itemleft"><img :src="item.FilePath?picUrl+item.FilePath:img"></div>
@@ -46,8 +53,11 @@ export default {
         xposition:"",
         yposition:"",
 
-        dataList:"",
-        picUrl:null
+        dataList:[],
+        picUrl:null,
+
+        pageIndex:1,
+        pageSize:10
 
     }
   },
@@ -69,12 +79,16 @@ export default {
       this.$Loading.start()
       this.$axios.post('/api/Login/SelectHistory', {
         Cabinets:this.Cabinets,
-        Locations:this.Locations
+        Locations:this.Locations,
+        _pageIndex:this.pageIndex,
+        _pageSize:this.pageSize
       }).then(rs => {
+        this.pageIndex+=1
         let result = rs.data
         //result.data.push.apply(result.data,result.data)
-        this.dataList= result.data
-        console.log(result, "data")
+        if(result.data.HistoryInfoList.length>0){
+          this.dataList.push.apply(this.dataList,result.data.HistoryInfoList)
+        }
         this.$Loading.finish()
         if (result.success) {
           this.$Message.success(result.message)
@@ -87,7 +101,8 @@ export default {
     handleReachEdge (dir) {
         console.log(dir,'dir')
         if (dir < 0) {
-            //this.dataList.push.apply(this.dataList,this.dataList)
+          this.queryData()
+          //this.dataList.push.apply(this.dataList,this.dataList)
         }
 
         // return new Promise(resolve => {
@@ -103,7 +118,14 @@ export default {
     handleClick(e) {
         // let id = e.currentTarget.getAttribute("historyid")
         let dataObj={
-            'id':1
+          'Position':e.currentTarget.getAttribute("Locations")+e.currentTarget.getAttribute("Cabinets"),
+          'XCoordinate': e.currentTarget.getAttribute("XCoordinate"),
+          'YCoordinate': e.currentTarget.getAttribute("YCoordinate"),
+          'HistoryID':e.currentTarget.getAttribute("HistoryID"),
+          'ShootingContent': e.currentTarget.getAttribute("ShootingContent"),
+          'ShootingTime': e.currentTarget.getAttribute("ShootingTime"),
+          'FilePath': e.currentTarget.getAttribute("FilePath"),
+
         }
         this.$router.push({path: '/detail', query: {dataJson: JSON.stringify(dataObj)}})
     }
@@ -115,6 +137,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~assets/themes/default/colors.scss";
 .container{
     padding-top:8vh;
     width:100%;
@@ -125,14 +148,14 @@ export default {
         background: url("~static/images/5.png") no-repeat ;
         background-position:left center;
         background-size:auto 1.5rem;
-        width:100%;
+        width:$pc-screen-width;
         height: 2.2rem;
         line-height: 2.2rem;
         font-size: 1.1rem;
         display:flex;
         position:fixed;
         top:8vh;
-        left: 0;
+        left: $pc-fixed-left;
         z-index: 2;
         background-color:white;
         align-items: center;

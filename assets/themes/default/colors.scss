@@ -13,3 +13,7 @@ $lightblue: #6ab2e5;
 $bg: #f5f5f5;
 // scroll-bar
 $scroll-bar-color: rgba(0, 0, 0, 0.5);
+
+$pc-screen-width:500px;
+$pc-fixed-left:calc((100% - 500px) / 2);
+$m-screen-width:100%;

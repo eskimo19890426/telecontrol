@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="topinfo">
-      <div class="left"><img src="~static/images/head.png"></div>
+      <div class="left"><img :src="user.Picture?picUrl+user.Picture:''"></div>
       <div class="righttop">
         <p><img src="~static/images/2.png"></p>
         <span>{{ user.UserName }}</span>
@@ -26,6 +26,8 @@
 
 
 <script>
+import img from '~/static/images/head.png'
+import config from '~/app.config.js'
 export default {
   data() {
     return {
@@ -38,10 +40,15 @@ export default {
             RoleName: "",
             UserName: ""
 
-        }
+        },
+        img,
+        picUrl:null,
+
     }
   },
   mounted() {
+    this.picUrl = config.urlhost+'/'
+
     this.userID= this.$route.query.userID
     this.queryData()
 

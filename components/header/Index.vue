@@ -52,17 +52,17 @@ export default {
 
 <style lang="scss" scoped>
 @import "~assets/themes/default/colors.scss";
-
 .sufan-header {
   position: fixed;
   background: black;
-  width:100%;
+  width:$pc-screen-width;
   height: 8vh;
   background: #05449b;
   color: #fff;
   top:0;
-  left: 0;
+  left: $pc-fixed-left;
   z-index:2;
+
   .row{
 
 

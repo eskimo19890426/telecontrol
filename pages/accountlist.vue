@@ -20,7 +20,7 @@
         <div 
           :historyid="item.HistoryID"
           class="carditem">
-          <div class="itemleft"><img :src="item.Picture?img:item.Picture"></div>
+          <div class="itemleft"><img :src="item.Picture?picUrl+item.Picture:''"></div>
           <div class="itemcenter">
             <div class="text">账号:{{ item.Accounts }}</div>
             <div class="text">昵称:{{ item.UserName }}</div>
@@ -50,6 +50,7 @@
 
 <script>
 import img from '~/static/images/head.png'
+import config from '~/app.config.js'
 export default {
   data() {
     return {
@@ -57,11 +58,14 @@ export default {
         sHeight:"90%",
         distance:[30,10],
         keyword: '',
-        dataList:""
+        dataList:[],
+        picUrl:null,
 
     }
   },
   mounted() {
+    this.picUrl = config.urlhost+'/'
+
     this.sHeight = document.body.offsetHeight*0.84
 
     this.queryData()
@@ -142,6 +146,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~assets/themes/default/colors.scss";
 .container{
     padding-top:8vh;
     width:100%;
@@ -150,7 +155,7 @@ export default {
     .whiteback{
       position: fixed;
       top: 9vh;
-      width:100%;
+      width:$pc-screen-width;
       height: calc(2vh + 2.2rem);
       background-color: white;
       z-index: 2;
@@ -248,7 +253,7 @@ export default {
 
     .bottom{
       position: fixed;
-      width:100%;
+      width:$pc-screen-width;
       height:8vh;
       bottom:0;
       background-color: white;

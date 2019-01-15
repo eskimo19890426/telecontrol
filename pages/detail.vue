@@ -2,24 +2,24 @@
   <div class="container">
     <div class="topinfo">
       <div class="left"><img src="~static/images/on.png"></div>
-      <div class="righttop">相机位置:</div>
+      <div class="righttop">相机位置:{{dataObj.Position}}</div>
       <div class="rightbottom">
-        <div class="item">X方向:</div>
-        <div class="item">Y方向:</div>
+        <div class="item">X方向:{{dataObj.XCoordinate}}</div>
+        <div class="item">Y方向:{{dataObj.YCoordinate}}</div>
       </div>
     </div>
     <div style="clear:both;display:none;">&nbsp;</div>
     <div class="info">
-      <div class="title">机位信息</div>
-      <div class="text">机位</div>
-      <div class="text">X方向:</div>
-      <div class="text">Y方向:</div>
+      <div class="title">拍摄数据</div>
+      <div class="text">拍摄编号<span>{{dataObj.HistoryID}}</span></div>
+      <div class="text">拍摄内容<span>{{dataObj.ShootingContent}}</span></div>
+      <div class="text">拍摄时间<span>{{dataObj.ShootingTime}}</span></div>
     </div>
     <div style="clear:both;display:none;">&nbsp;</div>
     <div class="picinfo">
-      <div class="title">机位信息</div>
+      <div class="title">拍摄图片</div>
       <div class="pic">
-        <img src="~static/images/on.png">
+        <img :src="picUrl+dataObj.FilePath">
       </div>
     </div>
 
@@ -28,16 +28,23 @@
 
 
 <script>
+import img from '~/static/images/head.png'
+import config from '~/app.config.js'
+
 export default {
   data() {
     return {
-        dataObj:{},
+      img,
+      dataObj:{},
+      picUrl:null,
 
     }
   },
   mounted() {
-    this.dataObj= JSON.parse(this.$route.query.dataJson)
+    this.picUrl = config.urlhost+'/'
 
+    this.dataObj= JSON.parse(this.$route.query.dataJson)
+    console.log(this.dataObj)
   },
   methods: {
 
@@ -114,13 +121,17 @@ export default {
         }
         .text{
             padding-left:1rem;
+            padding-right:1rem;
             padding-top:0.5rem;
             margin-top:0.5rem;
             border-top:1px solid #ddd;
             height:2rem;
             line-height: 2rem;
             font-size: 1rem;
+            span{
+              float:right;
 
+            }
 
 
         }
