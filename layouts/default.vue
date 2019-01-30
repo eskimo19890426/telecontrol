@@ -16,5 +16,6 @@
   width:500px;
   position:relative;
   margin:auto auto;
+  background: #f5f5f5;
 }
 </style>

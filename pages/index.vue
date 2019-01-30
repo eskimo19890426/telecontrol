@@ -5,7 +5,8 @@
         <div class="item">
           <ul>
             <li><img 
-              :src="active==1?onimg:offimg"
+              :class="current==11?style:''"
+              :src="current==11?onimg:(active==1?onimg:offimg)"
               index="1"
               row="1" 
               cell="1" 
@@ -14,7 +15,8 @@
             >
             </li>
             <li><img 
-              :src="active==2?onimg:offimg"
+              :class="current==12?style:''"
+              :src="current==12?onimg:(active==2?onimg:offimg)"
               index="2"
               row="2" 
               cell="1" 
@@ -27,14 +29,16 @@
         <div class="item">
           <ul>
             <li><img 
-              :src="active==3?onimg:offimg"
+              :class="current==21?style:''"
+              :src="current==21?onimg:(active==3?onimg:offimg)"
               index="3"
               row="1" 
               cell="2" 
               position="1546.0,270.4"
               @click="handleClick($event)" 
             ></li><li><img 
-              :src="active==4?onimg:offimg"
+              :class="current==22?style:''"
+              :src="current==22?onimg:(active==4?onimg:offimg)"
               index="4"
               row="2" 
               cell="2" 
@@ -46,21 +50,24 @@
         <div class="item">
           <ul>
             <li><img 
-              :src="active==5?onimg:offimg"
+              :class="current==31?style:''"
+              :src="current==31?onimg:(active==5?onimg:offimg)"
               index="5"
               row="1" 
               cell="3" 
               position="2143.3,13.3"
               @click="handleClick($event)" 
             ></li><li><img 
-              :src="active==6?onimg:offimg"
+              :class="current==32?style:''"
+              :src="current==32?onimg:(active==6?onimg:offimg)"
               index="6"
               row="2" 
               cell="3" 
               position="2143.3,282.9"
               @click="handleClick($event)" 
             ></li><li><img 
-              :src="active==7?onimg:offimg"
+              :class="current==33?style:''"
+              :src="current==33?onimg:(active==7?onimg:offimg)"
               index="7"
               row="3" 
               cell="3" 
@@ -72,14 +79,16 @@
         <div class="item">
           <ul>
             <li><img 
-              :src="active==8?onimg:offimg"
+              :class="current==41?style:''"
+              :src="current==41?onimg:(active==8?onimg:offimg)"
               index="8"
               row="1" 
               cell="4" 
               position="2743.8,281.4"
               @click="handleClick($event)" 
             ></li><li><img 
-              :src="active==9?onimg:offimg"
+              :class="current==42?style:''"
+              :src="current==42?onimg:(active==9?onimg:offimg)"
               index="9"
               row="2" 
               cell="4" 
@@ -91,28 +100,32 @@
         <div class="item">
           <ul>
             <li><img 
-              :src="active==10?onimg:offimg"
+              :class="current==51?style:''"
+              :src="current==51?onimg:(active==10?onimg:offimg)"
               index="10"
               row="1" 
               cell="5" 
               position="3355.3,14.0"
               @click="handleClick($event)" 
             ></li><li><img 
-              :src="active==11?onimg:offimg"
+              :class="current==52?style:''"
+              :src="current==52?onimg:(active==11?onimg:offimg)"
               index="11"
               row="2" 
               cell="5" 
               position="3355.3,281.4"
               @click="handleClick($event)" 
             ></li><li><img 
-              :src="active==12?onimg:offimg"
+              :class="current==53?style:''"
+              :src="current==53?onimg:(active==12?onimg:offimg)"
               index="12"
               row="3" 
               cell="5" 
               position="3355.3,550.2"
               @click="handleClick($event)" 
             ></li><li><img 
-              :src="active==13?onimg:offimg"
+              :class="current==54?style:''"
+              :src="current==54?onimg:(active==13?onimg:offimg)"
               index="13"
               row="4" 
               cell="5" 
@@ -127,14 +140,14 @@
     <div style="clear:both;display:none;">&nbsp;</div>
     <div class="info">
       <div class="title">机位信息</div>
-      <div class="text">机位{{ rowcell }}</div>
-      <div class="text">X方向:{{ xposition }}</div>
-      <div class="text">Y方向:{{ yposition }}</div>
+      <div class="text">机位  {{ rowcell }}</div>
+      <div class="text">X方向:  {{ xposition }}</div>
+      <div class="text">Y方向:  {{ yposition }}</div>
     </div>
     <div class="group">
       <div class="half">
         <input 
-          :disabled="!hasSelected"
+          :disabled="disable?true:!hasSelected"
           value="移动到该位置"
           type="button" 
           @click="handleMove" >
@@ -180,6 +193,16 @@
             src="~/static/images/user.png"
             @click="handleUserClick($event)" 
         ></li>
+        <li 
+          class="users"><img 
+            src="~/static/images/setting.png"
+            @click="handleSettingClick($event)" 
+        ></li>
+        <li 
+          class="users"><img 
+            src="~/static/images/history.png"
+            @click="handleMsgHistoryClick($event)" 
+        ></li>
       </ul>
     </div>
 
@@ -189,6 +212,7 @@
 <script>
 import onimg from '~/static/images/on.png'
 import offimg from '~/static/images/off.png'
+import config from '~/app.config.js'
 import {
   mapState
 } from 'vuex'
@@ -206,7 +230,10 @@ export default {
       position:"",
       MessageStr:1,
       hasSelected:false,
-      active:0
+      current:0,
+      active:0,
+      style:"",
+      disable:0  //0可以修改，1不可以修改
     }
   },
   computed: {
@@ -224,6 +251,15 @@ export default {
     }
     
   },
+  mounted() {
+    this.getPosition();
+    this.timer = setInterval(() => {
+      this.getPosition()
+    }, 3000)
+  },
+  destroyed() {
+    clearInterval(this.timer)
+  },
   methods: {
     handleClick(e) {
       console.log(e.currentTarget, 'e')
@@ -238,7 +274,7 @@ export default {
       this.cell = cell
       this.position = position
       this.hasSelected = true;
-      this.MessageStr = cell+'|'+row+'|'+this.xposition+'|'+this.yposition+'|'+index+'|'+0
+      this.MessageStr = cell+'|'+row+'|'+this.xposition+'|'+this.yposition+'|'+index+'|'+0+'|'+config.position[index-1]+'$'
       this.active = Number(index)
     },
     handleMove() {
@@ -258,7 +294,7 @@ export default {
       })
     },
     handleHistory() {
-      this.$router.push({path: '/history', query: {'Cabinets': this.row,'Locations':this.cell,'rowcell':this.rowcell,'xposition':this.xposition,'yposition':this.yposition}})
+      this.$router.push({path: '/history', query: {'Cabinets': this.cell,'Locations':this.row,'rowcell':this.rowcell,'xposition':this.xposition,'yposition':this.yposition}})
     },
     handleAccountClick() {
       this.$router.push({path: '/accountinfo', query: {userID: this.account.ID}})
@@ -276,7 +312,46 @@ export default {
     logout() {
       this.$store.commit('app/logout')
       this.$router.push('/account/login')
-    }
+    },
+    getPosition(){
+      this.$Loading.start()
+      this.$axios.post('/api/Login/GetCameraInfo', {
+      }).then(rs => {
+        let result = rs.data
+        this.$Loading.finish()
+        if (result.success) {
+          this.current=Number(result.data.substring(1,3));
+          
+          switch(Number(result.data.substring(0,1))){
+            case 1:
+              this.style="on";
+              break;
+            case 2:
+              this.style="off";
+              break;
+            default:
+              this.style="err";
+              break;
+          }
+          let flag = Number(result.data.substring(3))
+          if(this.style=="on"&&flag==0) {
+            this.disable = flag
+          }else{
+            this.disable = 1
+          }
+
+          //this.$Message.success(result.message)
+        } else {
+          //this.$Message.error(result.message)
+        }
+      })
+    },
+    handleSettingClick() {
+      this.$router.push('/formulalist')
+    },
+    handleMsgHistoryClick() {
+      this.$router.push('/messagehistory')
+    },
 
   }
 
@@ -331,6 +406,21 @@ export default {
       img{
         width:100%;
         height:100%;
+      }
+      .on{
+        border: #00FA9A 2px solid;
+        background: #00FA9A;
+        border-radius: 5px;
+      }
+      .off{
+        border: #708090 2px solid;
+        background: #708090;
+        border-radius: 5px;
+      }
+      .err{
+        border: red 2px solid;
+        background: red;
+        border-radius: 5px;
       }
 
 

@@ -19,10 +19,18 @@
     <div class="picinfo">
       <div class="title">拍摄图片</div>
       <div class="pic">
-        <img :src="picUrl+dataObj.FilePath">
+        <img :src="picUrl+dataObj.FilePath"  @click="handleClick($event)">
+        
       </div>
+      
     </div>
-
+    <div style="clear:both;"></div>
+    <Modal v-model="modal" width="500" :closable="false">
+        <img :src="modalPicUrl">
+        <div slot="footer">
+            <Button type="default" long @click="modal=false">关闭</Button>
+        </div>
+    </Modal>
   </div>
 </template>
 
@@ -37,7 +45,8 @@ export default {
       img,
       dataObj:{},
       picUrl:null,
-
+      modal:false,
+      modalPicUrl:''
     }
   },
   mounted() {
@@ -47,7 +56,10 @@ export default {
     console.log(this.dataObj)
   },
   methods: {
-
+    handleClick(e) {
+        this.modal = true
+        this.modalPicUrl = e.currentTarget.getAttribute("src") 
+    }
   }
 }
 </script>
@@ -143,7 +155,7 @@ export default {
 
     .picinfo{
         width:95%;
-        height:15rem;
+        //height:15rem;
         margin:auto auto;
         background:white;
         margin-top:1rem;
@@ -164,13 +176,13 @@ export default {
         }
         .pic{
             width:90%;
-            height:12.2rem;
+            //height:12.2rem;
             display:block;
             text-align: center;
             padding: 0.5rem;
             margin:auto auto;
             img{
-                height: 100%;
+                width: 100%;
                 
             }
 

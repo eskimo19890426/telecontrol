@@ -3,6 +3,7 @@
     <div class="row">
       <span v-show="!showBack">远程控制系统</span>
       <span v-show="showBack" @click="doBack()"><Icon type="ios-arrow-back" />返回</span>
+      <span v-show="showAdd" @click="doAdd()" style="position: absolute;right: 2rem;"><Icon type="md-add" />新增</span>
     </div>
   </header>
 </template>
@@ -12,6 +13,7 @@ export default {
   data() {
     return {
         showBack:true,
+        showAdd:false
     }
   },
   mounted() {
@@ -28,9 +30,11 @@ export default {
       
       if (path!='/') {
         this.$router.back(-1)
-      } else {
-
-      }
+      } 
+      
+    },
+    doAdd() {
+      this.$router.push({path: '/editformula'})      
     }
   },
   watch: {
@@ -39,9 +43,16 @@ export default {
       immediate: true,
       handler(to, from) {
         if (to.path=='/') {
-          this.showBack=false
+          this.showBack = false
+          this.showAdd = false
+        }else if(to.path=='/formulalist') {
+          
+          this.showBack = true
+          this.showAdd = true
         }else {
-          this.showBack=true
+          console.log(to.path)
+          this.showBack = true
+          this.showAdd = false
         }
       }
     }
