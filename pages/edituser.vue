@@ -21,7 +21,7 @@
           prop="Accounts">
           <Input 
             v-model="formData.Accounts" 
-            type="text" 
+            type="text" maxlength="50"
             placeholder=""></Input>
         </FormItem>
         <FormItem 
@@ -29,7 +29,7 @@
           prop="UserName">
           <Input 
             v-model="formData.UserName" 
-            type="text" 
+            type="text" maxlength="50"
             placeholder=""></Input>
         </FormItem>
         <FormItem 
@@ -37,7 +37,7 @@
           prop="RoleName">
           <Input 
             v-model="formData.RoleName" 
-            type="text" 
+            type="text" maxlength="50"
             placeholder=""></Input>
         </FormItem>
         <FormItem 

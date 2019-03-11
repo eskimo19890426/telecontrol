@@ -140,9 +140,9 @@
     <div style="clear:both;display:none;">&nbsp;</div>
     <div class="info">
       <div class="title">机位信息</div>
-      <div class="text">机位  {{ rowcell }}</div>
-      <div class="text">X方向:  {{ xposition }}</div>
-      <div class="text">Y方向:  {{ yposition }}</div>
+      <div class="text">机位  {{ positionName }}</div>
+      <!-- <div class="text">X方向:  {{ xposition }}</div>
+      <div class="text">Y方向:  {{ yposition }}</div> -->
     </div>
     <div class="group">
       <div class="half">
@@ -199,10 +199,14 @@
             @click="handleSettingClick($event)" 
         ></li>
         <li 
-          class="users"><img 
-            src="~/static/images/history.png"
-            @click="handleMsgHistoryClick($event)" 
-        ></li>
+          class="users">
+          <Badge :count="historyCount">
+            <img src="~/static/images/history.png" @click="handleMsgHistoryClick($event)" >
+          </Badge>
+          
+          <!-- <img src="~/static/images/history.png" @click="handleMsgHistoryClick($event)" > -->
+        </li>
+        
       </ul>
     </div>
 
@@ -212,6 +216,7 @@
 <script>
 import onimg from '~/static/images/on.png'
 import offimg from '~/static/images/off.png'
+
 import config from '~/app.config.js'
 import {
   mapState
@@ -233,7 +238,9 @@ export default {
       current:0,
       active:0,
       style:"",
-      disable:0  //0可以修改，1不可以修改
+      disable:0,  //0可以修改，1不可以修改
+      positionName: '',
+      historyCount: 0
     }
   },
   computed: {
@@ -241,7 +248,8 @@ export default {
       account: 'account'
     }),
     rowcell: function () {
-      return this.cell+this.row
+      // return this.cell+this.row
+      //return (config.position[index-1]!=''?config.position[index-1]:(index=='1'?'一号机柜,位置一':(index=='7'?'三号机柜,位置三':'五号机柜,位置四')))
     },
     xposition: function () {
       return this.position.split(",")[0]
@@ -253,6 +261,7 @@ export default {
   },
   mounted() {
     this.getPosition();
+    this.GetUnreadCount();
     this.timer = setInterval(() => {
       this.getPosition()
     }, 3000)
@@ -274,8 +283,9 @@ export default {
       this.cell = cell
       this.position = position
       this.hasSelected = true;
-      this.MessageStr = cell+'|'+row+'|'+this.xposition+'|'+this.yposition+'|'+index+'|'+0+'|'+config.position[index-1]+'$'
+      this.MessageStr = cell+'|'+row+'|'+this.xposition+'|'+this.yposition+'|'+index+'|'+0+'|'+(config.position[index-1]!=''?config.position[index-1]:(index=='1'?'一号机柜,位置一':(index=='7'?'三号机柜,位置三':'五号机柜,位置四')))+'$'
       this.active = Number(index)
+      this.positionName= (config.position[index-1]!=''?config.position[index-1]:(index=='1'?'一号机柜,位置一':(index=='7'?'三号机柜,位置三':'五号机柜,位置四')))
     },
     handleMove() {
       this.$Loading.start()
@@ -294,7 +304,7 @@ export default {
       })
     },
     handleHistory() {
-      this.$router.push({path: '/history', query: {'Cabinets': this.cell,'Locations':this.row,'rowcell':this.rowcell,'xposition':this.xposition,'yposition':this.yposition}})
+      this.$router.push({path: '/history', query: {'Cabinets': this.cell,'Locations':this.row,'rowcell':this.positionName,'xposition':this.xposition,'yposition':this.yposition}})
     },
     handleAccountClick() {
       this.$router.push({path: '/accountinfo', query: {userID: this.account.ID}})
@@ -335,7 +345,11 @@ export default {
           }
           let flag = Number(result.data.substring(3))
           if(this.style=="on"&&flag==0) {
-            this.disable = flag
+            if(this.account.ControlOver==1){
+              this.disable = flag;
+            }else{
+              this.disable = 1;
+            }
           }else{
             this.disable = 1
           }
@@ -352,7 +366,18 @@ export default {
     handleMsgHistoryClick() {
       this.$router.push('/messagehistory')
     },
-
+    GetUnreadCount(){
+      this.$axios.post('/api/Formula/GetUnreadCount', {
+        MessageStr:this.MessageStr
+      }).then(rs => {
+        let result = rs.data
+        if (result.success) {
+          this.historyCount= result.data;
+        } else {
+          this.historyCount= 0;
+        }
+      })
+    }
   }
 
 
@@ -435,7 +460,7 @@ export default {
   display:block;
   width:90%;
   margin: auto auto;
-  height: 30%;
+  height: 15%;
   padding-top:5%;
   padding-left:5%;
   float: left;

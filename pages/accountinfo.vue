@@ -4,12 +4,12 @@
       <div class="left"><img :src="user.Picture?picUrl+user.Picture:''"></div>
       <div class="righttop">
         <p><img src="~static/images/2.png"></p>
-        <span>{{ user.UserName }}</span>
+        <span style="width:10rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ user.UserName }}</span>
         <span @click="doEdit()"><img src="~static/images/update.png"></span>
       </div>
       <div class="rightbottom">
         <p><img src="~static/images/7.png"></p>
-        <span>{{ user.RoleName }}</span>
+        <span style="width:10rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ user.RoleName }}</span>
       </div>
     </div>
     <div style="clear:both;display:none;">&nbsp;</div>
@@ -127,8 +127,8 @@ export default {
             }
             span{
                 margin-left:1rem;
-                display: flex;
-                align-items: center;
+                //display: flex;
+                //align-items: center;
                 img{
                   width:1rem;
                   height: 1rem;
@@ -182,17 +182,21 @@ export default {
             height:3.5rem;
             line-height: 3.5rem;
             font-size: 1rem;
-            
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap;
         }
         .text{
-            padding-left:1rem;
+            padding: 0 1rem;
             // padding:1rem;
             // margin:1rem 0;
             border-top:1px solid #ddd;
             height:3.5rem;
             line-height: 3.5rem;
             font-size: 1rem;
-
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap;
 
 
         }

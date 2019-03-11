@@ -3,6 +3,12 @@
     <template v-for="item in dataObj">
         <div :key="item.Contents">
             <div class="info">
+            <div class="title">短信内容</div>
+            <div class="text"><span>{{messageContents}}</span></div>
+            <!-- <div class="text">拍摄时间<span>{{dataObj.ShootingTime}}</span></div> -->
+            <div style="clear:both;"></div>
+            </div>
+            <div class="info">
             <div class="title">拍摄内容</div>
             <div class="text"><span>{{item.Contents}}</span></div>
             <!-- <div class="text">拍摄时间<span>{{dataObj.ShootingTime}}</span></div> -->
@@ -45,14 +51,17 @@ export default {
       dataObj:{},
       title:'',
       modal:false,
-      modalPicUrl:''
+      modalPicUrl:'',
+      messageContents:'fadfadsfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdffadfadsfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf'
     }
   },
   mounted() {
     this.picUrl = config.urlhost+'/'
 
     this.id= JSON.parse(this.$route.query.id)
+    this.messageContents = this.$route.query.message
     this.queryData()
+    this.updateSms()
   },
   methods: {
     queryData() {
@@ -72,6 +81,15 @@ export default {
         }
       })
 
+    },
+    updateSms(){
+        this.$axios.post('/api/Formula/UpDateSmsContent', {
+          'SmsID':this.id,
+          'Status':1
+        }).then(rs => {
+
+
+        })
     },
     handleClick(e) {
         this.modal = true
@@ -116,8 +134,9 @@ export default {
             line-height: 2rem;
             font-size: 1rem;
             span{
+              width:100%;
               float:left;
-
+              word-wrap:break-word;
             }
 
 

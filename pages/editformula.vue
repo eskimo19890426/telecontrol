@@ -8,7 +8,7 @@
             <FormItem prop="FormulaName">
               <Input 
                 v-model="formData.FormulaName" 
-                type="text" 
+                type="text" maxlength="50"
                 placeholder="输入配方名称"></Input>
             </FormItem>
             <div class="clearfloat"></div>

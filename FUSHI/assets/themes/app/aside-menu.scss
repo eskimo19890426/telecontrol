@@ -1,0 +1,49 @@
+.sufan-asidemenu {
+  .ivu-menu-light.ivu-menu-vertical {
+    background: transparent;
+    font-size: 18px;
+
+    &::after {
+      display: none;
+    }
+
+    .ivu-menu-item {
+      font-size: 18px;
+      border-left: 5px solid transparent;
+      box-sizing: border-box;
+      border-right: 0;
+      border-bottom: 1px solid #ffffff;
+
+      &.disabled {
+        color: #888 !important;
+      }
+    }
+
+    .ivu-menu-item,
+    .ivu-menu-submenu-title {
+      padding-top: 26px;
+      padding-bottom: 26px;
+    }
+
+    .ivu-menu-item-active {
+      color: $primary;
+      border-left-color: $primary;
+      border-right: 0;
+
+      &:not(.ivu-menu-submenu) {
+        background: #e6e6e6;
+      }
+    }
+  }
+}
+@media screen and (max-width:1440px) {
+  .sufan-asidemenu {
+    .ivu-menu-light.ivu-menu-vertical {
+      .ivu-menu-item,
+      .ivu-menu-submenu-title {
+        padding-top: 22px;
+        padding-bottom: 22px;
+      }
+    }
+  }
+}

@@ -11,7 +11,7 @@
           prop="OldPassword">
           <Input 
             v-model="formData.OldPassword" 
-            type="password" 
+            type="password" maxlength="50"
             placeholder=""></Input>
         </FormItem>
         <FormItem 
@@ -19,7 +19,7 @@
           prop="Password">
           <Input 
             v-model="formData.Password" 
-            type="password" 
+            type="password" maxlength="50"
             placeholder=""></Input>
         </FormItem>
         <FormItem 
@@ -27,7 +27,7 @@
           prop="ConfirmPassword">
           <Input 
             v-model="formData.ConfirmPassword" 
-            type="password" 
+            type="password" maxlength="50"
             placeholder=""></Input>
         </FormItem>
         <FormItem style="text-align:center;">
@@ -52,7 +52,7 @@ export default {
         OldPassword: [{
           type: 'string',
           required: true,
-          message: '请输入新密码',
+          message: '请输入原密码',
           trigger: 'blur'
         }],
         Password: [{
@@ -116,11 +116,6 @@ export default {
           this.$Message.error(rs.data.message)
         }
       })
-
-
-
-
-
     }
 
 

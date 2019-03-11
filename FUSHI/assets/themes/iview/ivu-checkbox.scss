@@ -1,0 +1,50 @@
+.ivu-checkbox-wrapper {
+  position: relative;
+  top: -2px;
+}
+
+.ivu-checkbox-inner {
+  width: 16px;
+  height: 16px;
+  border-radius: 0;
+  border-color: none;
+
+  &:hover {
+    border-color: none;
+  }
+
+  &::after {
+    width: 5px;
+    height: 10px;
+  }
+}
+
+.ivu-checkbox-checked {
+  .ivu-checkbox-inner {
+    border-color: $primary;
+    background-color: $primary;
+
+    &::after {
+      width: 5px;
+      height: 10px;
+    }
+  }
+
+  &:hover {
+    .ivu-checkbox-inner {
+      border-color: $primary;
+    }
+  }
+}
+
+.ivu-checkbox-indeterminate {
+  .ivu-checkbox-inner {
+    border-color: $primary;
+    background-color: $primary;
+
+    &::after {
+      width: 10px;
+      top: 6px;
+    }
+  }
+}

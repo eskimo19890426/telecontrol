@@ -2,8 +2,8 @@
   <div class="container">
     <div class="whiteback">
       <div class="search">
-        <p><img src="~static/images/search.png"></p>
-        <input type="text" maxlength="20" >
+        <p><img src="~static/images/search.png" @click="search"></p>
+        <input type="text" maxlength="30" ref="keyword">
       </div>
     </div>
     
@@ -138,6 +138,14 @@ export default {
             },
             onCancel: () => {}
         });
+    },
+    search(){
+      //console.log(this.$refs.keyword.value)  
+      if(this.keyword!=this.$refs.keyword.value ){
+        this.keyword=this.$refs.keyword.value;
+        this.queryData();
+      }
+
     }
   }
 }
@@ -223,6 +231,9 @@ export default {
                 height:33%;
                 line-height:33%;
                 padding-top: 0.8rem;
+                overflow:hidden;
+                text-overflow:ellipsis;
+                white-space:nowrap;
               }
             }
             .itemright{

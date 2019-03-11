@@ -1,0 +1,80 @@
+// 垂直滚动
+
+.iScrollVerticalScrollbar {
+  position: absolute;
+  z-index: 999;
+  display: flex;
+  justify-content: flex-end;
+  width: 6px;
+  bottom: 0;
+  top: 0;
+  right: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition-duration: 500ms;
+
+  .iScrollIndicator {
+    box-sizing: border-box;
+    position: absolute;
+    background: $scroll-bar-color;
+    width: 2px;
+    transition-duration: 0;
+    display: block;
+    transform: translate(0px, 0px) translateZ(0px);
+    transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1);
+  }
+}
+// 水平滚动
+
+.iScrollHorizontalScrollbar {
+  position: absolute;
+  z-index: 999;
+  display: flex;
+  align-items: flex-end;
+  height: 6px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  transform: translateZ(0px);
+  transition-duration: 500ms;
+  opacity: 0;
+
+  .iScrollIndicator {
+    box-sizing: border-box;
+    position: absolute;
+    background: $scroll-bar-color;
+    height: 2px;
+    transition-duration: 0;
+    display: block;
+    transform: translate(0px, 0px) translateZ(0px);
+    transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1);
+  }
+}
+
+.viscroll-wrapper:active,
+.viscroll-wrapper:hover {
+  .iScrollHorizontalScrollbar {
+    opacity: 1;
+  }
+
+  .iScrollHorizontalScrollbar:active,
+  .iScrollHorizontalScrollbar:hover {
+    .iScrollIndicator {
+      height: 100%;
+      border-radius: 6px;
+    }
+  }
+
+  .iScrollVerticalScrollbar {
+    opacity: 1;
+  }
+
+  .iScrollVerticalScrollbar:active,
+  .iScrollVerticalScrollbar:hover {
+    .iScrollIndicator {
+      width: 100%;
+      border-radius: 6px;
+    }
+  }
+}
